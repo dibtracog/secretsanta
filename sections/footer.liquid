@@ -1,0 +1,33 @@
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <nav class="footer-nav" aria-label="Footer">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+    {%- if section.settings.text != blank -%}
+      <p>{{ section.settings.text | escape }}</p>
+    {%- endif -%}
+    <p class="copyright">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</p>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "footer"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "Spreading holiday cheer, one gift at a time."
+    }
+  ]
+}
+{% endschema %}

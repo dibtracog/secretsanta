@@ -1,0 +1,41 @@
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="{{ routes.root_url }}" class="logo">
+      {%- if section.settings.logo != blank -%}
+        {{ section.settings.logo | image_url: width: 300 | image_tag: class: 'logo-img', alt: shop.name }}
+      {%- else -%}
+        {{ shop.name }}
+      {%- endif -%}
+    </a>
+
+    <nav class="main-nav" aria-label="Main">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+
+    <div class="header-actions">
+      <a href="{{ routes.search_url }}">{{ 'general.search' | t }}</a>
+      <a href="{{ routes.cart_url }}" class="cart-link">{{ 'general.cart' | t }} ({{ cart.item_count }})</a>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

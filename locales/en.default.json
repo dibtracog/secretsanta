@@ -1,0 +1,54 @@
+{
+  "general": {
+    "skip_to_content": "Skip to content",
+    "cart": "Cart",
+    "search": "Search",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "products": {
+    "add_to_cart": "Add to cart",
+    "sold_out": "Sold out",
+    "quantity": "Quantity",
+    "options": "Options"
+  },
+  "collections": {
+    "empty": "No products found in this collection.",
+    "all": "Collections"
+  },
+  "cart": {
+    "title": "Your cart",
+    "empty": "Your cart is empty.",
+    "continue": "Continue shopping",
+    "update": "Update cart",
+    "checkout": "Check out",
+    "total": "Total",
+    "remove": "Remove",
+    "taxes": "Taxes and shipping calculated at checkout."
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search the store",
+    "submit": "Search",
+    "no_results": "No results found."
+  },
+  "not_found": {
+    "title": "Page not found",
+    "text": "Looks like this page slipped off Santa's list.",
+    "back": "Back to home"
+  },
+  "blog": {
+    "read_more": "Read more",
+    "empty": "No articles yet."
+  },
+  "password": {
+    "coming_soon": "Opening soon",
+    "notify": "Get notified when we open",
+    "email": "Email",
+    "subscribe": "Notify me",
+    "thanks": "Thanks! We'll let you know.",
+    "enter_password": "Enter store password",
+    "password": "Password",
+    "enter": "Enter"
+  }
+}

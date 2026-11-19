@@ -1,0 +1,39 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Secret Santa",
+    "theme_version": "1.0.0",
+    "theme_author": "dibtracog",
+    "theme_documentation_url": "https://github.com/dibtracog/secretsanta",
+    "theme_support_url": "https://github.com/dibtracog/secretsanta"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary",
+        "default": "#b3202a"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent",
+        "default": "#1f6b3a"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background",
+        "default": "#fffaf3"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text",
+        "default": "#1d1d1d"
+      }
+    ]
+  }
+]

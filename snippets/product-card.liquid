@@ -1,0 +1,19 @@
+{%- comment -%}
+  Renders a product card.
+  Usage: {% render 'product-card', product: product %}
+{%- endcomment -%}
+<a href="{{ product.url }}" class="product-card">
+  {%- if product.featured_image -%}
+    {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy' }}
+  {%- else -%}
+    {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
+  {%- endif -%}
+  <h3 class="product-card-title">{{ product.title }}</h3>
+  <p class="price">
+    {%- if product.available -%}
+      {{ product.price | money }}
+    {%- else -%}
+      {{ 'products.sold_out' | t }}
+    {%- endif -%}
+  </p>
+</a>

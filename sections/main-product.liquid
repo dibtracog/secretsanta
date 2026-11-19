@@ -1,0 +1,63 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+<section class="container product">
+  <div class="product-media">
+    {%- assign has_image = false -%}
+    {%- for media in product.media -%}
+      {%- if media.media_type == 'image' -%}
+        {%- assign has_image = true -%}
+        {{ media | image_url: width: 1000 | image_tag: loading: 'lazy' }}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- unless has_image -%}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
+    {%- endunless -%}
+  </div>
+
+  <div class="product-info">
+    <h1>{{ product.title }}</h1>
+    <p class="price">{{ current_variant.price | money }}</p>
+
+    {%- form 'product', product, class: 'product-form' -%}
+      {%- if product.has_only_default_variant -%}
+        <input type="hidden" name="id" value="{{ current_variant.id }}">
+      {%- else -%}
+        <label>
+          {{ 'products.options' | t }}
+          <select name="id">
+            {%- for variant in product.variants -%}
+              <option
+                value="{{ variant.id }}"
+                {% if variant.id == current_variant.id %}selected{% endif %}
+                {% unless variant.available %}disabled{% endunless %}
+              >
+                {{ variant.title }} &ndash; {{ variant.price | money }}
+              </option>
+            {%- endfor -%}
+          </select>
+        </label>
+      {%- endif -%}
+
+      <label>
+        {{ 'products.quantity' | t }}
+        <input type="number" name="quantity" value="1" min="1">
+      </label>
+
+      <button type="submit" class="button" {% unless product.available %}disabled{% endunless %}>
+        {%- if product.available -%}
+          {{ 'products.add_to_cart' | t }}
+        {%- else -%}
+          {{ 'products.sold_out' | t }}
+        {%- endif -%}
+      </button>
+    {%- endform -%}
+
+    <div class="rte">{{ product.description }}</div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": []
+}
+{% endschema %}

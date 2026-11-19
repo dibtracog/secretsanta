@@ -1,0 +1,57 @@
+<section class="hero">
+  {%- if section.settings.image != blank -%}
+    {{ section.settings.image | image_url: width: 2000 | image_tag: class: 'hero-img', loading: 'eager' }}
+  {%- endif -%}
+  <div class="container hero-inner">
+    <h1>{{ section.settings.heading | escape }}</h1>
+    {%- if section.settings.subheading != blank -%}
+      <p class="hero-sub">{{ section.settings.subheading | escape }}</p>
+    {%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <a class="button" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">
+        {{- section.settings.button_label | escape -}}
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Make this year's Secret Santa unforgettable"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Thoughtful gifts for coworkers, friends and family, wrapped and ready to go."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop gifts"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero"
+    }
+  ]
+}
+{% endschema %}
