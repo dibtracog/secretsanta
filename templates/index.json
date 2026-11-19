@@ -4,28 +4,63 @@
       "type": "hero",
       "settings": {}
     },
+    "trust": {
+      "type": "trust-badges",
+      "blocks": {
+        "badge-1": {
+          "type": "badge",
+          "settings": {
+            "icon": "shield",
+            "title": "Child-safe & super soft",
+            "text": "Virgin-grade polyfill, embroidered faces and no small plastic parts."
+          }
+        },
+        "badge-2": {
+          "type": "badge",
+          "settings": {
+            "icon": "lock",
+            "title": "Discreet secret delivery",
+            "text": "Go fully anonymous. We never print prices or your name on the package."
+          }
+        },
+        "badge-3": {
+          "type": "badge",
+          "settings": {
+            "icon": "calendar",
+            "title": "Christmas scheduling",
+            "text": "Pick a delivery date between Dec 20 and Dec 25 right in your cart."
+          }
+        }
+      },
+      "block_order": ["badge-1", "badge-2", "badge-3"],
+      "settings": {}
+    },
+    "quiz": {
+      "type": "secret-santa-quiz",
+      "settings": {}
+    },
     "how": {
       "type": "how-it-works",
       "blocks": {
         "step-1": {
           "type": "step",
           "settings": {
-            "title": "Draw names",
-            "text": "Gather your group and find out who you're shopping for."
+            "title": "Describe your Secret Santa",
+            "text": "Five playful questions about their personality, habits and your budget."
           }
         },
         "step-2": {
           "type": "step",
           "settings": {
-            "title": "Pick a gift",
-            "text": "Browse gifts sorted by budget and personality."
+            "title": "Meet their plush twin",
+            "text": "We decode their vibe and match them with soft toys that fit it."
           }
         },
         "step-3": {
           "type": "step",
           "settings": {
-            "title": "Spread the cheer",
-            "text": "We wrap it and ship it, so the surprise stays a secret."
+            "title": "Add a secret message",
+            "text": "Write a gift note, stay anonymous, and choose a Christmas delivery date."
           }
         }
       },
@@ -34,8 +69,45 @@
     },
     "featured": {
       "type": "featured-collection",
+      "settings": {
+        "surface": true
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q-1": {
+          "type": "question",
+          "settings": {
+            "question": "Will the recipient know who sent the gift?",
+            "answer": "<p>Only if you want them to. Tick <strong>Deliver anonymously</strong> in the cart and we'll leave your name and the price off the package.</p>"
+          }
+        },
+        "q-2": {
+          "type": "question",
+          "settings": {
+            "question": "Can I choose the delivery date?",
+            "answer": "<p>Yes. Pick a preferred date between Dec 20 and Dec 25 in the cart before checkout.</p>"
+          }
+        },
+        "q-3": {
+          "type": "question",
+          "settings": {
+            "question": "Can I add a personal message?",
+            "answer": "<p>Absolutely. Every product page has a Secret Santa box for the recipient's name and a gift message. We tuck it inside the parcel.</p>"
+          }
+        },
+        "q-4": {
+          "type": "question",
+          "settings": {
+            "question": "Do you save my quiz answers?",
+            "answer": "<p>No. The matchmaker runs in your browser and your answers are never sent to us.</p>"
+          }
+        }
+      },
+      "block_order": ["q-1", "q-2", "q-3", "q-4"],
       "settings": {}
     }
   },
-  "order": ["hero", "how", "featured"]
+  "order": ["hero", "trust", "quiz", "how", "featured", "faq"]
 }

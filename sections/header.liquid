@@ -1,10 +1,26 @@
+{%- if section.settings.announcement != blank -%}
+  <div class="announcement">
+    {%- if section.settings.announcement_link != blank -%}
+      <a href="{{ section.settings.announcement_link }}">{{ section.settings.announcement | escape }}</a>
+    {%- else -%}
+      {{ section.settings.announcement | escape }}
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
 <header class="site-header">
   <div class="container header-inner">
     <a href="{{ routes.root_url }}" class="logo">
       {%- if section.settings.logo != blank -%}
-        {{ section.settings.logo | image_url: width: 300 | image_tag: class: 'logo-img', alt: shop.name }}
+        {{ section.settings.logo | image_url: width: 400 | image_tag: class: 'logo-img', alt: shop.name, loading: 'eager' }}
       {%- else -%}
-        {{ shop.name }}
+        <span class="logo-mark" aria-hidden="true">🧸</span>
+        <span class="logo-text">
+          <span class="logo-name">{{ shop.name }}</span>
+          {%- if section.settings.tagline != blank -%}
+            <span class="logo-tagline">{{ section.settings.tagline | escape }}</span>
+          {%- endif -%}
+        </span>
       {%- endif -%}
     </a>
 
@@ -14,9 +30,37 @@
       {%- endfor -%}
     </nav>
 
-    <div class="header-actions">
-      <a href="{{ routes.search_url }}">{{ 'general.search' | t }}</a>
-      <a href="{{ routes.cart_url }}" class="cart-link">{{ 'general.cart' | t }} ({{ cart.item_count }})</a>
+    {%- if section.settings.cta_label != blank -%}
+      <a href="{{ section.settings.cta_link | default: '/#secret-santa-quiz' }}" class="button nav-highlight">
+        {% render 'icon', name: 'gift' %}
+        {{ section.settings.cta_label | escape }}
+      </a>
+    {%- endif -%}
+
+    <div class="header-icons">
+      <a href="{{ routes.search_url }}" class="header-icon" aria-label="{{ 'general.search' | t }}">
+        {% render 'icon', name: 'search' %}
+      </a>
+      <a href="{{ routes.cart_url }}" class="header-icon" aria-label="{{ 'general.cart' | t }}">
+        {% render 'icon', name: 'bag' %}
+        <span class="cart-count" data-cart-count{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span>
+      </a>
+
+      <details class="mobile-menu">
+        <summary class="header-icon" aria-label="{{ 'general.menu' | t }}">
+          {% render 'icon', name: 'menu' %}
+        </summary>
+        <nav class="mobile-menu-panel" aria-label="Mobile">
+          {%- for link in section.settings.menu.links -%}
+            <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+          {%- endfor -%}
+          {%- if section.settings.cta_label != blank -%}
+            <a href="{{ section.settings.cta_link | default: '/#secret-santa-quiz' }}" class="button">
+              {{ section.settings.cta_label | escape }}
+            </a>
+          {%- endif -%}
+        </nav>
+      </details>
     </div>
   </div>
 </header>
@@ -26,15 +70,45 @@
   "name": "Header",
   "settings": [
     {
+      "type": "text",
+      "id": "announcement",
+      "label": "Announcement bar text",
+      "default": "🎄 Christmas gifting is open! Free delivery on orders over ₹499."
+    },
+    {
+      "type": "url",
+      "id": "announcement_link",
+      "label": "Announcement link"
+    },
+    {
       "type": "image_picker",
       "id": "logo",
       "label": "Logo"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline under store name",
+      "info": "Shown only when no logo image is set.",
+      "default": "Little hugs · Big smiles"
     },
     {
       "type": "link_list",
       "id": "menu",
       "label": "Menu",
       "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Highlighted button label",
+      "default": "Find their match"
+    },
+    {
+      "type": "text",
+      "id": "cta_link",
+      "label": "Highlighted button link",
+      "default": "/#secret-santa-quiz"
     }
   ]
 }

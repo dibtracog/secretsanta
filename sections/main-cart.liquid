@@ -1,43 +1,118 @@
-<section class="container cart">
+<section class="container section">
   <h1>{{ 'cart.title' | t }}</h1>
 
   {%- if cart.item_count > 0 -%}
-    <form action="{{ routes.cart_url }}" method="post" class="cart-form">
-      <ul class="cart-items">
-        {%- for item in cart.items -%}
-          <li class="cart-item">
-            {%- if item.image -%}
-              {{ item.image | image_url: width: 160 | image_tag: loading: 'lazy' }}
-            {%- endif -%}
-            <div class="cart-item-info">
-              <a href="{{ item.url }}">{{ item.product.title }}</a>
-              {%- unless item.product.has_only_default_variant -%}
-                <small>{{ item.variant.title }}</small>
-              {%- endunless -%}
-              <a href="{{ item.url_to_remove }}" class="cart-remove">{{ 'cart.remove' | t }}</a>
-            </div>
-            <input
-              type="number"
-              name="updates[]"
-              value="{{ item.quantity }}"
-              min="0"
-              aria-label="{{ 'products.quantity' | t }}"
-            >
-            <span class="price">{{ item.final_line_price | money }}</span>
-          </li>
-        {%- endfor -%}
-      </ul>
-
-      <div class="cart-footer">
-        <p class="cart-total">{{ 'cart.total' | t }}: {{ cart.total_price | money_with_currency }}</p>
-        <p><small>{{ 'cart.taxes' | t }}</small></p>
-        <button type="submit" name="update" class="button button-secondary">{{ 'cart.update' | t }}</button>
-        <button type="submit" name="checkout" class="button">{{ 'cart.checkout' | t }}</button>
+    {%- if settings.free_shipping_threshold > 0 -%}
+      {%- assign threshold = settings.free_shipping_threshold | times: 100 -%}
+      <div class="shipping-bar">
+        {%- if cart.total_price >= threshold -%}
+          <span>🎉 {{ 'cart.free_shipping_unlocked' | t }}</span>
+          <div class="shipping-track"><span style="width: 100%"></span></div>
+        {%- else -%}
+          {%- assign remaining = threshold | minus: cart.total_price -%}
+          {%- assign progress = cart.total_price | times: 100 | divided_by: threshold -%}
+          {%- assign remaining_money = remaining | money -%}
+          <span>🚚 {{ 'cart.free_shipping_remaining' | t: amount: remaining_money }}</span>
+          <div class="shipping-track"><span style="width: {{ progress }}%"></span></div>
+        {%- endif -%}
       </div>
+    {%- endif -%}
+
+    <form action="{{ routes.cart_url }}" method="post" class="cart-layout" novalidate>
+      <div>
+        <ul class="cart-items">
+          {%- for item in cart.items -%}
+            <li class="cart-item">
+              <a href="{{ item.url }}" class="cart-item-img">
+                {%- if item.image -%}
+                  {{ item.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: item.product.title }}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
+                {%- endif -%}
+              </a>
+              <div class="cart-item-info">
+                <a href="{{ item.url }}" class="cart-item-title">{{ item.product.title }}</a>
+                {%- unless item.product.has_only_default_variant -%}
+                  <p class="cart-item-meta">{{ item.variant.title }}</p>
+                {%- endunless -%}
+                {%- for property in item.properties -%}
+                  {%- assign first_char = property.first | slice: 0 -%}
+                  {%- if property.last != blank and first_char != '_' -%}
+                    <p class="cart-item-meta">{{ property.first }}: {{ property.last }}</p>
+                  {%- endif -%}
+                {%- endfor -%}
+                <div class="cart-item-row">
+                  <label class="visually-hidden" for="qty-{{ item.key }}">{{ 'products.quantity' | t }}</label>
+                  <input id="qty-{{ item.key }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0">
+                  <span class="price">{{ item.final_line_price | money }}</span>
+                </div>
+                <a href="{{ item.url_to_remove }}" class="cart-remove">{{ 'cart.remove' | t }}</a>
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+        <p><button type="submit" name="update" class="button button-ghost">{{ 'cart.update' | t }}</button></p>
+      </div>
+
+      <aside class="cart-summary">
+        <h2>{% render 'icon', name: 'gift' %} {{ 'cart.gift_options' | t }}</h2>
+
+        {%- if settings.gift_wrap_product != blank -%}
+          {%- assign wrap = settings.gift_wrap_product -%}
+          {%- assign wrap_in_cart = false -%}
+          {%- for item in cart.items -%}
+            {%- if item.product_id == wrap.id -%}{%- assign wrap_in_cart = true -%}{%- endif -%}
+          {%- endfor -%}
+          {%- if wrap.available -%}
+            {%- assign wrap_price = wrap.price | money -%}
+            <label class="check">
+              <input type="checkbox" data-gift-wrap="{{ wrap.selected_or_first_available_variant.id }}"{% if wrap_in_cart %} checked{% endif %}>
+              <span>{{ 'cart.gift_wrap' | t: title: wrap.title, price: wrap_price }}</span>
+            </label>
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- assign delivery_dates = settings.delivery_dates | split: ',' -%}
+        {%- if delivery_dates.size > 0 -%}
+          <div class="field">
+            <label for="cart-delivery-date">{{ 'cart.delivery_date' | t }}</label>
+            <select id="cart-delivery-date" name="attributes[Delivery date]">
+              <option value="">{{ 'cart.delivery_date_any' | t }}</option>
+              {%- for date in delivery_dates -%}
+                {%- assign date_value = date | strip -%}
+                <option value="{{ date_value | escape }}"{% if cart.attributes['Delivery date'] == date_value %} selected{% endif %}>
+                  {{- date_value -}}
+                </option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endif -%}
+
+        <input type="hidden" name="attributes[Deliver anonymously]" value="No">
+        <label class="check">
+          <input type="checkbox" name="attributes[Deliver anonymously]" value="Yes"{% if cart.attributes['Deliver anonymously'] == 'Yes' %} checked{% endif %}>
+          <span>{{ 'cart.anonymous' | t }}</span>
+        </label>
+
+        <div class="field">
+          <label for="cart-note">{{ 'cart.note' | t }}</label>
+          <textarea id="cart-note" name="note" maxlength="500">{{ cart.note }}</textarea>
+        </div>
+
+        <div class="cart-subtotal">
+          <span>{{ 'cart.subtotal' | t }}</span>
+          <span>{{ cart.total_price | money_with_currency }}</span>
+        </div>
+        <p class="cart-small">{{ 'cart.taxes' | t }}</p>
+        <button type="submit" name="checkout" class="button button-full">{% render 'icon', name: 'lock' %} {{ 'cart.checkout' | t }}</button>
+      </aside>
     </form>
   {%- else -%}
-    <p>{{ 'cart.empty' | t }}</p>
-    <a href="{{ routes.all_products_collection_url }}" class="button">{{ 'cart.continue' | t }}</a>
+    <div class="cart-empty">
+      <div class="cart-empty-emoji" aria-hidden="true">🎁</div>
+      <p>{{ 'cart.empty' | t }}</p>
+      <a href="{{ routes.all_products_collection_url }}" class="button">{{ 'cart.continue' | t }}</a>
+    </div>
   {%- endif -%}
 </section>
 

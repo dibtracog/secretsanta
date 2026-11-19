@@ -1,0 +1,41 @@
+{%- comment -%} Shared <head> content for theme.liquid and password.liquid. {%- endcomment -%}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="{{ settings.color_primary }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-primary: {{ settings.color_primary }};
+    --color-secondary: {{ settings.color_secondary }};
+    --color-accent: {{ settings.color_accent }};
+    --color-gold: {{ settings.color_gold }};
+    --color-bg: {{ settings.color_background }};
+    --color-surface: {{ settings.color_surface }};
+    --color-text: {{ settings.color_text }};
+    --color-muted: {{ settings.color_muted }};
+    --color-border: {{ settings.color_border }};
+  }
+</style>
+{{ 'base.css' | asset_url | stylesheet_tag }}
+<script>
+  window.theme = {
+    moneyFormat: {{ shop.money_format | json }},
+    routes: {
+      root: {{ routes.root_url | json }},
+      cart: {{ routes.cart_url | json }},
+      cartAdd: {{ routes.cart_add_url | json }},
+      cartChange: {{ routes.cart_change_url | json }}
+    },
+    strings: {
+      adding: {{ 'products.adding' | t | json }},
+      added: {{ 'products.added' | t | json }},
+      viewCart: {{ 'products.view_cart' | t | json }},
+      addToCart: {{ 'products.add_to_cart' | t | json }},
+      soldOut: {{ 'products.sold_out' | t | json }},
+      unavailable: {{ 'products.unavailable' | t | json }}
+    }
+  };
+</script>
+<script src="{{ 'theme.js' | asset_url }}" defer></script>

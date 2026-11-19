@@ -1,4 +1,4 @@
-<section class="container search">
+<section class="container section">
   <h1>{{ 'search.title' | t }}</h1>
   <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
     <input
@@ -8,20 +8,25 @@
       placeholder="{{ 'search.placeholder' | t }}"
       aria-label="{{ 'search.placeholder' | t }}"
     >
-    <button type="submit" class="button">{{ 'search.submit' | t }}</button>
+    <input type="hidden" name="type" value="product">
+    <button type="submit" class="button">{% render 'icon', name: 'search' %} {{ 'search.submit' | t }}</button>
   </form>
 
   {%- if search.performed -%}
-    {%- paginate search.results by 12 -%}
+    {%- paginate search.results by 24 -%}
       {%- if search.results_count > 0 -%}
-        <div class="product-grid">
+        <p class="cart-small">{{ 'search.results' | t: count: search.results_count, terms: search.terms }}</p>
+        <br>
+        <div class="product-grid cols-4">
           {%- for item in search.results -%}
             {%- if item.object_type == 'product' -%}
               {% render 'product-card', product: item %}
             {%- else -%}
-              <a href="{{ item.url }}" class="product-card">
-                <h3 class="product-card-title">{{ item.title }}</h3>
-              </a>
+              <div class="product-card">
+                <div class="product-card-body">
+                  <h3 class="product-card-title"><a href="{{ item.url }}">{{ item.title }}</a></h3>
+                </div>
+              </div>
             {%- endif -%}
           {%- endfor -%}
         </div>

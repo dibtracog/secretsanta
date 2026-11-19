@@ -1,0 +1,18 @@
+{%- comment -%}
+  Turns a "vibe-xxx" product tag into a friendly label.
+  Usage: {% render 'vibe-label', tag: tag %}
+{%- endcomment -%}
+{%- assign key = tag | downcase | remove_first: 'vibe-' -%}
+{%- case key -%}
+  {%- when 'mischief' -%}😈 Mischief Makers
+  {%- when 'cuddle' -%}🤗 Cuddle Lovers
+  {%- when 'adventure' -%}🧭 Adventure Seekers
+  {%- when 'sunshine' -%}☀️ Sunshine Souls
+  {%- when 'sleepy' -%}😴 Cozy Sleepyheads
+  {%- when 'social' -%}🦋 Social Butterflies
+  {%- when 'dreamer' -%}✨ Dreamers
+  {%- when 'perfectionist' -%}📋 Perfectionists
+  {%- when 'foodie' -%}🍓 Foodies
+  {%- when 'drama' -%}🎭 Drama Magnets
+  {%- else -%}{{ key | capitalize }}
+{%- endcase -%}

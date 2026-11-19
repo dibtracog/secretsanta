@@ -3,18 +3,36 @@
     "skip_to_content": "Skip to content",
     "cart": "Cart",
     "search": "Search",
-    "previous": "Previous",
-    "next": "Next"
+    "menu": "Menu",
+    "close": "Close",
+    "view_all": "View all",
+    "whatsapp": "Chat with us on WhatsApp"
   },
   "products": {
     "add_to_cart": "Add to cart",
+    "choose_options": "Choose options",
+    "adding": "Adding…",
+    "added": "Added to your cart",
+    "view_cart": "View cart",
     "sold_out": "Sold out",
+    "unavailable": "Unavailable",
     "quantity": "Quantity",
-    "options": "Options"
+    "sale": "Sale",
+    "save": "Save {{ percent }}%",
+    "bestseller": "Bestseller",
+    "perfect_for": "Perfect for",
+    "gift_title": "Make it a Secret Santa gift",
+    "gift_to": "Who is it for?",
+    "gift_to_placeholder": "Their name or nickname",
+    "gift_message": "Gift message",
+    "gift_message_placeholder": "Ho ho ho! Merry Christmas from your Secret Santa",
+    "gift_anonymous": "Keep me anonymous (no sender name on the package)"
   },
   "collections": {
     "empty": "No products found in this collection.",
-    "all": "Collections"
+    "all": "Collections",
+    "sort_by": "Sort by",
+    "count": "{{ count }} products"
   },
   "cart": {
     "title": "Your cart",
@@ -22,15 +40,24 @@
     "continue": "Continue shopping",
     "update": "Update cart",
     "checkout": "Check out",
-    "total": "Total",
+    "subtotal": "Subtotal",
     "remove": "Remove",
-    "taxes": "Taxes and shipping calculated at checkout."
+    "taxes": "Taxes and shipping calculated at checkout.",
+    "free_shipping_unlocked": "You've unlocked free shipping!",
+    "free_shipping_remaining": "Add {{ amount }} more for free shipping",
+    "gift_options": "Secret Santa options",
+    "delivery_date": "Preferred delivery date",
+    "delivery_date_any": "Any date",
+    "anonymous": "Deliver anonymously (hide my name and prices)",
+    "note": "Gift note or delivery instructions",
+    "gift_wrap": "Add {{ title }} (+{{ price }})"
   },
   "search": {
     "title": "Search",
-    "placeholder": "Search the store",
+    "placeholder": "Search soft toys",
     "submit": "Search",
-    "no_results": "No results found."
+    "no_results": "No results found.",
+    "results": "{{ count }} results for “{{ terms }}”"
   },
   "not_found": {
     "title": "Page not found",

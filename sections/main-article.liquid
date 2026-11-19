@@ -1,11 +1,11 @@
-<article class="container article">
+<article class="container page-content">
   {%- if article.image -%}
     {{ article.image | image_url: width: 1400 | image_tag: class: 'article-img' }}
   {%- endif -%}
+  <p class="cart-small">{{ article.published_at | time_tag: format: 'date' }}</p>
   <h1>{{ article.title }}</h1>
-  <p><small>{{ article.published_at | time_tag: format: 'date' }}</small></p>
   <div class="rte">{{ article.content }}</div>
-  <p><a href="{{ blog.url }}">&larr; {{ blog.title }}</a></p>
+  <p><a href="{{ blog.url }}" class="link-arrow">&larr; {{ blog.title }}</a></p>
 </article>
 
 {% schema %}

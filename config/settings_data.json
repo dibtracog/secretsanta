@@ -2,10 +2,22 @@
   "current": "Default",
   "presets": {
     "Default": {
-      "color_primary": "#b3202a",
-      "color_accent": "#1f6b3a",
-      "color_background": "#fffaf3",
-      "color_text": "#1d1d1d"
+      "color_primary": "#b91c1c",
+      "color_secondary": "#14532d",
+      "color_accent": "#e5732f",
+      "color_gold": "#fbbf24",
+      "color_background": "#fffdf9",
+      "color_surface": "#faf4ea",
+      "color_text": "#2e1f14",
+      "color_muted": "#6e5948",
+      "color_border": "#ede2d4",
+      "christmas_date": "2026-12-25",
+      "timezone_offset": "+05:30",
+      "delivery_dates": "Dec 20, Dec 21, Dec 22, Dec 23, Dec 24, Dec 25",
+      "free_shipping_threshold": 499,
+      "show_whatsapp": true,
+      "whatsapp_number": "+919319465202",
+      "whatsapp_message": "Hi! I need help picking a Secret Santa gift."
     }
   }
 }

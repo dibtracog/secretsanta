@@ -2,7 +2,7 @@
   {
     "name": "theme_info",
     "theme_name": "Secret Santa",
-    "theme_version": "1.0.0",
+    "theme_version": "2.0.0",
     "theme_author": "dibtracog",
     "theme_documentation_url": "https://github.com/dibtracog/secretsanta",
     "theme_support_url": "https://github.com/dibtracog/secretsanta"
@@ -10,29 +10,77 @@
   {
     "name": "Colors",
     "settings": [
+      { "type": "color", "id": "color_primary", "label": "Primary (Santa red)", "default": "#b91c1c" },
+      { "type": "color", "id": "color_secondary", "label": "Secondary (pine green)", "default": "#14532d" },
+      { "type": "color", "id": "color_accent", "label": "Accent (buttons)", "default": "#e5732f" },
+      { "type": "color", "id": "color_gold", "label": "Highlight (gold)", "default": "#fbbf24" },
+      { "type": "color", "id": "color_background", "label": "Background", "default": "#fffdf9" },
+      { "type": "color", "id": "color_surface", "label": "Soft panels", "default": "#faf4ea" },
+      { "type": "color", "id": "color_text", "label": "Text", "default": "#2e1f14" },
+      { "type": "color", "id": "color_muted", "label": "Muted text", "default": "#6e5948" },
+      { "type": "color", "id": "color_border", "label": "Borders", "default": "#ede2d4" }
+    ]
+  },
+  {
+    "name": "Christmas",
+    "settings": [
       {
-        "type": "color",
-        "id": "color_primary",
-        "label": "Primary",
-        "default": "#b3202a"
+        "type": "text",
+        "id": "christmas_date",
+        "label": "Countdown date",
+        "info": "Format: YYYY-MM-DD",
+        "default": "2026-12-25"
       },
       {
-        "type": "color",
-        "id": "color_accent",
-        "label": "Accent",
-        "default": "#1f6b3a"
+        "type": "text",
+        "id": "timezone_offset",
+        "label": "Store time zone offset",
+        "info": "For example +05:30 for India",
+        "default": "+05:30"
       },
       {
-        "type": "color",
-        "id": "color_background",
-        "label": "Background",
-        "default": "#fffaf3"
+        "type": "text",
+        "id": "delivery_dates",
+        "label": "Gift delivery dates offered in cart",
+        "info": "Separate with commas. Leave empty to hide the picker.",
+        "default": "Dec 20, Dec 21, Dec 22, Dec 23, Dec 24, Dec 25"
       },
       {
-        "type": "color",
-        "id": "color_text",
-        "label": "Text",
-        "default": "#1d1d1d"
+        "type": "product",
+        "id": "gift_wrap_product",
+        "label": "Gift wrap add-on product",
+        "info": "Shown as a checkbox in the cart."
+      }
+    ]
+  },
+  {
+    "name": "Store",
+    "settings": [
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free shipping threshold",
+        "info": "In your store currency. Set to 0 to hide the progress bar.",
+        "default": 499
+      },
+      {
+        "type": "checkbox",
+        "id": "show_whatsapp",
+        "label": "Show floating WhatsApp button",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_number",
+        "label": "WhatsApp number",
+        "info": "Include country code, for example +919319465202",
+        "default": "+919319465202"
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_message",
+        "label": "WhatsApp pre-filled message",
+        "default": "Hi! I need help picking a Secret Santa gift."
       }
     ]
   }

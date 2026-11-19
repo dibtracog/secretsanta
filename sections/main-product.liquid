@@ -1,49 +1,143 @@
 {%- assign current_variant = product.selected_or_first_available_variant -%}
-<section class="container product">
-  <div class="product-media">
-    {%- assign has_image = false -%}
-    {%- for media in product.media -%}
-      {%- if media.media_type == 'image' -%}
-        {%- assign has_image = true -%}
-        {{ media | image_url: width: 1000 | image_tag: loading: 'lazy' }}
+<section class="container product" data-product-section>
+  <div class="product-gallery">
+    <div class="product-main-image">
+      {%- if product.featured_media -%}
+        {{
+          product.featured_media
+          | image_url: width: 1200
+          | image_tag:
+            class: 'product-main-img',
+            loading: 'eager',
+            widths: '500, 800, 1000, 1200',
+            sizes: '(min-width: 900px) 55vw, 100vw'
+        }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
       {%- endif -%}
-    {%- endfor -%}
-    {%- unless has_image -%}
-      {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
-    {%- endunless -%}
+    </div>
+
+    {%- if product.media.size > 1 -%}
+      <div class="product-thumbs">
+        {%- for media in product.media -%}
+          <button
+            type="button"
+            class="product-thumb{% if media.id == product.featured_media.id %} is-active{% endif %}"
+            data-thumb="{{ media | image_url: width: 1200 }}"
+            data-alt="{{ media.alt | escape }}"
+            aria-label="Show image {{ forloop.index }}"
+          >
+            {{ media | image_url: width: 160 | image_tag: loading: 'lazy' }}
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
   </div>
 
   <div class="product-info">
     <h1>{{ product.title }}</h1>
-    <p class="price">{{ current_variant.price | money }}</p>
 
-    {%- form 'product', product, class: 'product-form' -%}
-      {%- if product.has_only_default_variant -%}
-        <input type="hidden" name="id" value="{{ current_variant.id }}">
-      {%- else -%}
-        <label>
-          {{ 'products.options' | t }}
-          <select name="id">
-            {%- for variant in product.variants -%}
-              <option
-                value="{{ variant.id }}"
-                {% if variant.id == current_variant.id %}selected{% endif %}
-                {% unless variant.available %}disabled{% endunless %}
-              >
-                {{ variant.title }} &ndash; {{ variant.price | money }}
-              </option>
+    <div class="product-price">
+      <span class="price" data-price>{{ current_variant.price | money }}</span>
+      <s data-compare-price{% unless current_variant.compare_at_price > current_variant.price %} hidden{% endunless %}>
+        {{- current_variant.compare_at_price | money -}}
+      </s>
+      {%- assign save = 0 -%}
+      {%- if current_variant.compare_at_price > current_variant.price -%}
+        {%- assign save = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price -%}
+      {%- endif -%}
+      <span
+        class="save-badge"
+        data-save-badge
+        data-template="{{ 'products.save' | t: percent: '__PCT__' }}"
+        {% if save == 0 %}hidden{% endif %}
+      >
+        {{- 'products.save' | t: percent: save -}}
+      </span>
+    </div>
+
+    {%- assign has_vibes = false -%}
+    {%- for tag in product.tags -%}
+      {%- assign tag_start = tag | downcase | slice: 0, 5 -%}
+      {%- if tag_start == 'vibe-' -%}{%- assign has_vibes = true -%}{%- endif -%}
+    {%- endfor -%}
+    {%- if has_vibes -%}
+      <div class="vibe-chips">
+        <span>{{ 'products.perfect_for' | t }}:</span>
+        {%- for tag in product.tags -%}
+          {%- assign tag_start = tag | downcase | slice: 0, 5 -%}
+          {%- if tag_start == 'vibe-' -%}
+            <span class="vibe-chip">{% render 'vibe-label', tag: tag %}</span>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- unless product.has_only_default_variant -%}
+      {%- for option in product.options_with_values -%}
+        {%- assign option_index = forloop.index0 -%}
+        <fieldset class="option-group">
+          <legend>{{ option.name }}</legend>
+          <div class="pills">
+            {%- for value in option.values -%}
+              {%- capture value_name -%}{{ value }}{%- endcapture -%}
+              <label class="pill">
+                <input
+                  type="radio"
+                  name="option-{{ section.id }}-{{ option_index }}"
+                  value="{{ value_name | escape }}"
+                  data-option-index="{{ option_index }}"
+                  {% if current_variant.options[option_index] == value_name %}checked{% endif %}
+                >
+                <span>{{ value_name }}</span>
+              </label>
             {%- endfor -%}
-          </select>
-        </label>
+          </div>
+        </fieldset>
+      {%- endfor -%}
+    {%- endunless -%}
+
+    {%- form 'product', product, class: 'product-form', data-product-form: '' -%}
+      <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+
+      <div class="field quantity-field">
+        <label for="qty-{{ section.id }}">{{ 'products.quantity' | t }}</label>
+        <input id="qty-{{ section.id }}" type="number" name="quantity" value="1" min="1">
+      </div>
+
+      {%- if section.settings.show_gift_options -%}
+        <details class="gift-box"{% if section.settings.gift_open %} open{% endif %}>
+          <summary>{% render 'icon', name: 'gift' %} {{ 'products.gift_title' | t }}</summary>
+          <div class="gift-box-fields">
+            <div class="field">
+              <label for="gift-to-{{ section.id }}">{{ 'products.gift_to' | t }}</label>
+              <input
+                id="gift-to-{{ section.id }}"
+                type="text"
+                name="properties[Secret Santa for]"
+                maxlength="40"
+                placeholder="{{ 'products.gift_to_placeholder' | t }}"
+              >
+            </div>
+            <div class="field">
+              <label for="gift-msg-{{ section.id }}">{{ 'products.gift_message' | t }}</label>
+              <textarea
+                id="gift-msg-{{ section.id }}"
+                name="properties[Gift message]"
+                maxlength="200"
+                placeholder="{{ 'products.gift_message_placeholder' | t }}"
+              ></textarea>
+            </div>
+            <label class="check">
+              <input type="checkbox" name="properties[Keep sender anonymous]" value="Yes">
+              <span>{{ 'products.gift_anonymous' | t }}</span>
+            </label>
+          </div>
+        </details>
       {%- endif -%}
 
-      <label>
-        {{ 'products.quantity' | t }}
-        <input type="number" name="quantity" value="1" min="1">
-      </label>
-
-      <button type="submit" class="button" {% unless product.available %}disabled{% endunless %}>
-        {%- if product.available -%}
+      <button type="submit" class="button button-full" data-add-button {% unless current_variant.available %}disabled{% endunless %}>
+        {%- if current_variant.available -%}
           {{ 'products.add_to_cart' | t }}
         {%- else -%}
           {{ 'products.sold_out' | t }}
@@ -51,13 +145,90 @@
       </button>
     {%- endform -%}
 
-    <div class="rte">{{ product.description }}</div>
+    <ul class="perks">
+      {%- if section.settings.perk_1 != blank -%}
+        <li>{% render 'icon', name: 'truck' %} {{ section.settings.perk_1 | escape }}</li>
+      {%- endif -%}
+      {%- if section.settings.perk_2 != blank -%}
+        <li>{% render 'icon', name: 'gift' %} {{ section.settings.perk_2 | escape }}</li>
+      {%- endif -%}
+      {%- if section.settings.perk_3 != blank -%}
+        <li>{% render 'icon', name: 'shield' %} {{ section.settings.perk_3 | escape }}</li>
+      {%- endif -%}
+    </ul>
+
+    <div class="product-accordions">
+      {%- if product.description != blank -%}
+        <details class="accordion" open>
+          <summary>{{ section.settings.description_title | escape }}</summary>
+          <div class="accordion-content rte">{{ product.description }}</div>
+        </details>
+      {%- endif -%}
+      {%- if section.settings.shipping_text != blank -%}
+        <details class="accordion">
+          <summary>{{ section.settings.shipping_title | escape }}</summary>
+          <div class="accordion-content rte">{{ section.settings.shipping_text }}</div>
+        </details>
+      {%- endif -%}
+    </div>
   </div>
+
+  <script type="application/json" data-variants>{{ product.variants | json }}</script>
 </section>
 
 {% schema %}
 {
   "name": "Product",
-  "settings": []
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_gift_options",
+      "label": "Show Secret Santa gift options",
+      "info": "Recipient name, message and anonymity are saved on the order.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "gift_open",
+      "label": "Open gift options by default",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "perk_1",
+      "label": "Perk 1",
+      "default": "Christmas delivery slots from Dec 20 to 25"
+    },
+    {
+      "type": "text",
+      "id": "perk_2",
+      "label": "Perk 2",
+      "default": "Discreet packaging, no prices on the slip"
+    },
+    {
+      "type": "text",
+      "id": "perk_3",
+      "label": "Perk 3",
+      "default": "Child-safe materials and stitching"
+    },
+    {
+      "type": "text",
+      "id": "description_title",
+      "label": "Description heading",
+      "default": "About this plush"
+    },
+    {
+      "type": "text",
+      "id": "shipping_title",
+      "label": "Shipping heading",
+      "default": "Delivery & gifting"
+    },
+    {
+      "type": "richtext",
+      "id": "shipping_text",
+      "label": "Shipping text",
+      "default": "<p>Pick your preferred Christmas delivery date in the cart. Choose anonymous delivery and we'll leave your name and the price off the package.</p>"
+    }
+  ]
 }
 {% endschema %}
