@@ -1,10 +1,21 @@
-<section class="santa-hero">
+<section class="santa-hero{% if section.settings.image != blank %} has-photo{% endif %}{% if section.settings.show_snow %} has-snow{% endif %}">
   {%- if section.settings.image != blank -%}
-    {{ section.settings.image | image_url: width: 2400 | image_tag: class: 'santa-hero-img', loading: 'eager', alt: '' }}
+    {{ section.settings.image | image_url: width: 2400 | image_tag: class: 'santa-hero-img', loading: 'eager', alt: '', sizes: '100vw', widths: '800, 1200, 1600, 2000, 2400' }}
+  {%- endif -%}
+
+  {%- if section.settings.show_decorations -%}
+    {% render 'string-lights' %}
+    <div class="hero-deco" aria-hidden="true">
+      <img class="deco-bells deco-bells-left" src="{{ 'deco-bells.svg' | asset_url }}" alt="" width="220" height="300">
+      <img class="deco-bells deco-bells-right" src="{{ 'deco-bells.svg' | asset_url }}" alt="" width="220" height="300">
+      <span class="deco-hang deco-hang-1"><img src="{{ 'deco-ornament-red.svg' | asset_url }}" alt="" width="120" height="170"></span>
+      <span class="deco-hang deco-hang-2"><img src="{{ 'deco-ornament-gold.svg' | asset_url }}" alt="" width="120" height="170"></span>
+      <span class="deco-hang deco-hang-3"><img src="{{ 'deco-ornament-green.svg' | asset_url }}" alt="" width="120" height="170"></span>
+    </div>
   {%- endif -%}
 
   <div class="container santa-hero-inner">
-    <div>
+    <div class="hero-copy">
       {%- if section.settings.badge != blank -%}
         <span class="hero-badge">{% render 'icon', name: 'sparkles' %} {{ section.settings.badge | escape }}</span>
       {%- endif -%}
@@ -18,7 +29,7 @@
 
       <div class="hero-buttons">
         {%- if section.settings.button_label != blank -%}
-          <a class="button" href="{{ section.settings.button_link | default: '#secret-santa-quiz' }}">
+          <a class="button button-gold" href="{{ section.settings.button_link | default: '#secret-santa-quiz' }}">
             {% render 'icon', name: 'gift' %}
             {{ section.settings.button_label | escape }}
           </a>
@@ -33,6 +44,9 @@
 
     {%- if section.settings.show_countdown -%}
       <div class="countdown-card" data-countdown="{{ settings.christmas_date | strip }}T00:00:00{{ settings.timezone_offset | strip }}">
+        {%- if section.settings.show_decorations -%}
+          <img class="countdown-holly" src="{{ 'deco-holly.svg' | asset_url }}" alt="" width="220" height="160" aria-hidden="true">
+        {%- endif -%}
         <p class="countdown-label">{{ section.settings.countdown_label | escape }}</p>
         <div class="countdown-grid" data-countdown-grid>
           <div class="countdown-unit"><strong data-days>--</strong><span>Days</span></div>
@@ -56,7 +70,20 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Background image (optional)"
+      "label": "Background photo (optional)",
+      "info": "Leave empty to use the illustrated snowy night scene."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_decorations",
+      "label": "Show bells, ornaments and twinkling lights",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_snow",
+      "label": "Show falling snow",
+      "default": true
     },
     {
       "type": "text",

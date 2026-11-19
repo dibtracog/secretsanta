@@ -1,4 +1,4 @@
-<section class="section{% if section.settings.surface %} section-surface{% endif %}">
+<section class="section{% if section.settings.surface %} section-surface{% endif %}{% if section.settings.overlap %} trust-overlap{% endif %}">
   <div class="container">
     {%- if section.settings.heading != blank -%}
       <div class="section-heading center">
@@ -33,6 +33,13 @@
       "type": "checkbox",
       "id": "surface",
       "label": "Use soft background",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "overlap",
+      "label": "Overlap the section above",
+      "info": "Use directly below the Christmas hero.",
       "default": false
     }
   ],

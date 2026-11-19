@@ -73,8 +73,8 @@
         "type": "text",
         "id": "whatsapp_number",
         "label": "WhatsApp number",
-        "info": "Include country code, for example +919319465202",
-        "default": "+919319465202"
+        "info": "Include country code, for example +918440856545",
+        "default": "+918440856545"
       },
       {
         "type": "text",

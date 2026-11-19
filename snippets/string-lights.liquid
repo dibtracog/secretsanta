@@ -1,0 +1,7 @@
+{%- comment -%}
+  Twinkling string of Christmas lights (decorative).
+  Usage: {% render 'string-lights' %}
+{%- endcomment -%}
+<ul class="string-lights" aria-hidden="true">
+  {%- for i in (1..40) -%}<li></li>{%- endfor -%}
+</ul>

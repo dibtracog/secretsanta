@@ -33,7 +33,9 @@
         }
       },
       "block_order": ["badge-1", "badge-2", "badge-3"],
-      "settings": {}
+      "settings": {
+        "overlap": true
+      }
     },
     "quiz": {
       "type": "secret-santa-quiz",
@@ -73,6 +75,10 @@
         "surface": true
       }
     },
+    "banner": {
+      "type": "gift-banner",
+      "settings": {}
+    },
     "faq": {
       "type": "faq",
       "blocks": {
@@ -109,5 +115,5 @@
       "settings": {}
     }
   },
-  "order": ["hero", "trust", "quiz", "how", "featured", "faq"]
+  "order": ["hero", "trust", "quiz", "how", "featured", "banner", "faq"]
 }

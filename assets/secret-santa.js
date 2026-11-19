@@ -412,12 +412,12 @@
 
       ctx.textAlign = 'center';
       ctx.fillStyle = gold;
-      ctx.font = '700 40px Fredoka, sans-serif';
+      ctx.font = '700 40px Fraunces, Georgia, serif';
       ctx.fillText('MY SECRET SANTA IS…', 540, 120);
 
       var t = state.traits;
       ctx.fillStyle = '#ffffff';
-      ctx.font = '700 72px Fredoka, sans-serif';
+      ctx.font = '700 72px Fraunces, Georgia, serif';
       ctx.fillText(t[0].pct + '% ' + t[0].info.label, 540, 215);
       ctx.font = '600 44px Nunito, sans-serif';
       ctx.fillText(t[1].pct + '% ' + t[1].info.label + '  ·  ' + t[2].pct + '% ' + t[2].info.label, 540, 285);
@@ -442,10 +442,10 @@
 
       var pick = state.picks && state.picks[0];
       ctx.fillStyle = gold;
-      ctx.font = '700 36px Fredoka, sans-serif';
+      ctx.font = '700 36px Fraunces, Georgia, serif';
       ctx.fillText('THEIR PLUSH TWIN', 540, 1110);
       ctx.fillStyle = '#ffffff';
-      ctx.font = '700 52px Fredoka, sans-serif';
+      ctx.font = '700 52px Fraunces, Georgia, serif';
       wrapText(ctx, pick ? pick.product.title : 'A cuddly surprise', 540, 1175, 900, 60);
 
       ctx.font = '600 30px Nunito, sans-serif';

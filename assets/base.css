@@ -38,7 +38,7 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: Fredoka, Nunito, sans-serif;
+  font-family: Fraunces, Georgia, serif;
   font-weight: 600;
   line-height: 1.15;
   margin: 0 0 0.5em;
@@ -348,7 +348,7 @@ label {
 }
 
 .logo-name {
-  font-family: Fredoka, sans-serif;
+  font-family: Fraunces, Georgia, serif;
   font-size: 1.3rem;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -494,76 +494,120 @@ label {
 .santa-hero {
   position: relative;
   overflow: hidden;
+  isolation: isolate;
   color: #fff;
-  background: linear-gradient(135deg, #7f1d1d 0%, var(--color-primary) 40%, var(--color-secondary) 100%);
+  background-color: #0e3324;
+  background-image:
+    linear-gradient(180deg, rgba(6, 21, 15, 0.35) 0%, rgba(6, 21, 15, 0) 30%),
+    linear-gradient(90deg, rgba(6, 21, 15, 0.82) 0%, rgba(6, 21, 15, 0.55) 42%, rgba(6, 21, 15, 0.05) 72%),
+    url(bg-hero-night.svg);
+  background-size: cover, cover, cover;
+  background-position: center, center, center bottom;
 }
 
-.santa-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1.5px, transparent 1.5px);
-  background-size: 34px 34px;
-  opacity: 0.5;
-  pointer-events: none;
+.santa-hero.has-photo {
+  background-image: none;
 }
 
 .santa-hero-img {
   position: absolute;
   inset: 0;
+  z-index: -2;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.25;
+}
+
+.santa-hero.has-photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(6, 21, 15, 0.85) 0%, rgba(6, 21, 15, 0.5) 50%, rgba(6, 21, 15, 0.15) 100%);
+}
+
+/* Falling snow */
+.santa-hero.has-snow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: url(bg-snow-small.svg), url(bg-snow-large.svg);
+  background-size: 400px 400px, 400px 400px;
+  animation: snow-fall 28s linear infinite;
+  opacity: 0.85;
+}
+
+@keyframes snow-fall {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 60px 400px, -40px 800px; }
 }
 
 .santa-hero-inner {
   position: relative;
+  z-index: 2;
   display: grid;
   gap: 32px;
   align-items: center;
-  padding-top: 64px;
-  padding-bottom: 64px;
+  padding-top: 120px;
+  padding-bottom: 120px;
 }
 
 @media (min-width: 990px) {
   .santa-hero-inner {
     grid-template-columns: 7fr 5fr;
-    gap: 48px;
-    padding-top: 88px;
-    padding-bottom: 88px;
+    gap: 56px;
+    min-height: 680px;
+    padding-top: 140px;
+    padding-bottom: 150px;
   }
+}
+
+.hero-copy {
+  max-width: 640px;
 }
 
 .hero-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 14px;
+  padding: 7px 16px;
+  border: 1px solid rgba(246, 196, 83, 0.45);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
-  color: var(--color-gold);
-  font-size: 0.8rem;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(4px);
+  color: #f6c453;
+  font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
+}
+
+.hero-badge .icon {
+  width: 16px;
+  height: 16px;
 }
 
 .santa-hero h1 {
-  font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+  font-size: clamp(2.4rem, 5.6vw, 4.2rem);
   font-weight: 700;
-  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  margin-bottom: 18px;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
 }
 
 .hero-tagline {
   font-size: clamp(1.1rem, 2vw, 1.35rem);
   font-weight: 800;
-  color: var(--color-gold);
+  color: #f6c453;
 }
 
 .hero-text {
-  max-width: 600px;
+  max-width: 560px;
+  font-size: 1.05rem;
   color: rgba(255, 255, 255, 0.88);
 }
 
@@ -571,24 +615,36 @@ label {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 28px;
+  margin-top: 30px;
 }
 
 .countdown-card {
-  padding: 28px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  padding: 32px 28px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 28px;
-  background: rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(6px);
+  background: rgba(6, 21, 15, 0.45);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+}
+
+.countdown-holly {
+  position: absolute;
+  top: -48px;
+  right: -26px;
+  width: 130px;
+  height: auto;
+  transform: rotate(12deg);
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
 }
 
 .countdown-label {
   font-size: 0.8rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-gold);
-  margin-bottom: 16px;
+  color: #f6c453;
+  margin-bottom: 18px;
 }
 
 .countdown-grid {
@@ -598,38 +654,182 @@ label {
 }
 
 .countdown-unit {
-  padding: 14px 6px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.08);
+  padding: 16px 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04));
   text-align: center;
 }
 
 .countdown-unit strong {
   display: block;
-  font-family: Fredoka, sans-serif;
-  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
   line-height: 1;
+  margin-bottom: 6px;
 }
 
 .countdown-unit span {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-gold);
+  color: #f6c453;
 }
 
 .countdown-done {
-  font-family: Fredoka, sans-serif;
+  font-family: Fraunces, Georgia, serif;
   font-size: 1.8rem;
   margin: 0;
 }
 
 .countdown-note {
-  margin: 16px 0 0;
+  margin: 18px 0 0;
   font-size: 0.875rem;
   color: rgba(255, 255, 255, 0.85);
+}
+
+/* String lights */
+.string-lights {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  height: 54px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='30'%3E%3Cpath d='M0 4 Q36 30 72 4' fill='none' stroke='%23071910' stroke-width='2.2'/%3E%3C/svg%3E") repeat-x 0 0 / 72px 30px;
+}
+
+.string-lights li {
+  position: relative;
+  flex: 0 0 72px;
+  height: 100%;
+}
+
+.string-lights li::before {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 32px;
+  width: 8px;
+  height: 7px;
+  border-radius: 2px;
+  background: #222;
+}
+
+.string-lights li::after {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  width: 12px;
+  height: 20px;
+  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+  background: var(--bulb, #ffd25e);
+  box-shadow: 0 4px 18px 4px var(--bulb, #ffd25e);
+  animation: twinkle 2.4s ease-in-out infinite;
+}
+
+.string-lights li:nth-child(5n + 1) { --bulb: #ff4d4d; }
+.string-lights li:nth-child(5n + 2) { --bulb: #ffd25e; }
+.string-lights li:nth-child(5n + 3) { --bulb: #5fd38a; }
+.string-lights li:nth-child(5n + 4) { --bulb: #6fb7ff; }
+.string-lights li:nth-child(5n + 5) { --bulb: #ff8fb1; }
+.string-lights li:nth-child(3n + 1)::after { animation-delay: 0.8s; }
+.string-lights li:nth-child(3n + 2)::after { animation-delay: 1.6s; }
+.string-lights li:nth-child(4n)::after { animation-duration: 3.1s; }
+
+@keyframes twinkle {
+  0%, 100% { opacity: 1; box-shadow: 0 4px 18px 4px var(--bulb, #ffd25e); }
+  50% { opacity: 0.45; box-shadow: 0 2px 6px 0 var(--bulb, #ffd25e); }
+}
+
+/* Bells & hanging ornaments */
+.hero-deco {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.deco-bells {
+  position: absolute;
+  top: 34px;
+  width: clamp(84px, 11vw, 150px);
+  height: auto;
+  transform-origin: 50% 0;
+  animation: swing 4s ease-in-out infinite;
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.4));
+}
+
+.deco-bells-left {
+  left: clamp(4px, 2vw, 40px);
+}
+
+.deco-bells-right {
+  right: clamp(4px, 2vw, 40px);
+  animation-delay: -2s;
+}
+
+.deco-hang {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: 50% 0;
+  animation: swing 5s ease-in-out infinite;
+}
+
+.deco-hang::before {
+  content: "";
+  width: 2px;
+  height: var(--len, 80px);
+  margin-bottom: -10px;
+  background: linear-gradient(#c99220, #f6d77b);
+}
+
+.deco-hang img {
+  width: var(--size, 56px);
+  height: auto;
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.35));
+}
+
+.deco-hang-1 { left: 47%; --len: 70px; --size: 54px; animation-delay: -1s; }
+.deco-hang-2 { left: 55%; --len: 120px; --size: 42px; animation-delay: -3s; }
+.deco-hang-3 { left: 62%; --len: 50px; --size: 48px; animation-delay: -2s; }
+
+@keyframes swing {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+
+@media (max-width: 1399px) {
+  .deco-bells-left { display: none; }
+}
+
+@media (max-width: 989px) {
+  .deco-hang { display: none; }
+  .deco-bells { top: 40px; }
+  .countdown-holly { width: 100px; top: -40px; right: -10px; }
+}
+
+@media (max-width: 600px) {
+  .deco-bells-left { display: none; }
+  .deco-bells { width: 76px; }
+  .santa-hero {
+    background-image:
+      linear-gradient(180deg, rgba(6, 21, 15, 0.75) 0%, rgba(6, 21, 15, 0.55) 60%, rgba(6, 21, 15, 0.2) 100%),
+      url(bg-hero-night.svg);
+    background-size: cover, cover;
+    background-position: center, 70% bottom;
+  }
 }
 
 /* ---------- Secret Santa quiz ---------- */
@@ -684,7 +884,7 @@ label {
 }
 
 .ss-step legend {
-  font-family: Fredoka, sans-serif;
+  font-family: Fraunces, Georgia, serif;
   font-size: clamp(1.4rem, 3vw, 1.9rem);
   font-weight: 600;
   line-height: 1.2;
@@ -840,7 +1040,7 @@ label {
 }
 
 .ss-trait-pct {
-  font-family: Fredoka, sans-serif;
+  font-family: Fraunces, Georgia, serif;
   font-size: 2rem;
   font-weight: 700;
   color: var(--color-primary);
@@ -1172,7 +1372,7 @@ label {
   border-radius: 14px;
   background: var(--color-primary);
   color: #fff;
-  font-family: Fredoka, sans-serif;
+  font-family: Fraunces, Georgia, serif;
   font-weight: 700;
 }
 
@@ -1799,7 +1999,7 @@ label {
 }
 
 .footer-brand {
-  font-family: Fredoka, sans-serif;
+  font-family: Fraunces, Georgia, serif;
   font-size: 1.5rem;
   color: #fff;
   margin-bottom: 8px;
@@ -1893,6 +2093,186 @@ label {
   color: var(--color-gold);
   font-weight: 800;
   margin-top: 6px;
+}
+
+/* ==========================================================================
+   Christmas decorations & polish
+   ========================================================================== */
+
+.section-surface {
+  background: url(bg-pattern-snow.svg) 0 0 / 260px 260px, var(--color-surface);
+}
+
+/* Pine garland across the top of a section */
+.section-garland {
+  position: relative;
+  padding-top: 130px;
+  background:
+    url(bg-garland.svg) repeat-x 0 0 / 480px 110px,
+    url(bg-pattern-snow.svg) 0 0 / 260px 260px,
+    var(--color-surface);
+}
+
+/* Holly under centred section headings */
+.section-heading.center h2::after {
+  content: "";
+  display: block;
+  width: 180px;
+  height: 30px;
+  margin: 14px auto 0;
+  background:
+    url(deco-holly.svg) center / 52px auto no-repeat,
+    linear-gradient(90deg, transparent, var(--color-border) 20%, var(--color-border) 38%, transparent 38%, transparent 62%, var(--color-border) 62%, var(--color-border) 80%, transparent) center / 100% 2px no-repeat;
+}
+
+/* Quiz card holly corner */
+.ss-quiz {
+  position: relative;
+}
+
+.ss-holly {
+  position: absolute;
+  top: -46px;
+  left: -28px;
+  width: 120px;
+  height: auto;
+  transform: rotate(-18deg);
+  pointer-events: none;
+  filter: drop-shadow(0 6px 8px rgba(46, 31, 20, 0.2));
+}
+
+@media (max-width: 600px) {
+  .ss-holly { width: 84px; top: -34px; left: -10px; }
+}
+
+.ss-card {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset, 0 24px 60px rgba(46, 31, 20, 0.1);
+}
+
+/* Trust badges overlapping the hero */
+.trust-overlap {
+  position: relative;
+  z-index: 5;
+  padding-top: 0;
+  padding-bottom: 24px;
+}
+
+.trust-overlap .trust-grid {
+  margin-top: -64px;
+}
+
+.trust-overlap .trust-item {
+  box-shadow: 0 18px 40px rgba(46, 31, 20, 0.12);
+  border-color: transparent;
+}
+
+.trust-icon {
+  background: color-mix(in srgb, var(--color-primary) 10%, #fff);
+}
+
+/* Gold button */
+.button-gold {
+  background: linear-gradient(180deg, #ffd977, #e9aa2b);
+  color: #3a2408;
+  box-shadow: 0 10px 24px rgba(233, 170, 43, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.button {
+  box-shadow: 0 6px 16px rgba(46, 31, 20, 0.12);
+}
+
+.button-ghost,
+.button-outline-light {
+  box-shadow: none;
+}
+
+/* Gift wrap banner */
+.gift-banner {
+  padding: 72px 0;
+  background: url(bg-wrapping-paper.svg) 0 0 / 140px 140px, #a3171d;
+  position: relative;
+}
+
+.gift-banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 18%;
+  width: 34px;
+  background: linear-gradient(90deg, #c8921f, #ffe08a 50%, #c8921f);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+}
+
+.gift-banner-card {
+  position: relative;
+  display: grid;
+  gap: 24px;
+  align-items: center;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  border-radius: 32px;
+  background: var(--color-bg);
+  box-shadow: 0 30px 70px rgba(60, 5, 8, 0.35);
+  text-align: center;
+}
+
+.gift-banner-art img {
+  width: min(260px, 70vw);
+  margin: 0 auto;
+}
+
+.gift-banner-copy p {
+  color: var(--color-muted);
+}
+
+@media (min-width: 768px) {
+  .gift-banner-card {
+    grid-template-columns: 300px 1fr;
+    padding: 40px 48px;
+    text-align: left;
+  }
+
+  .gift-banner-art img {
+    width: 100%;
+  }
+}
+
+/* Snowy footer */
+.site-footer {
+  position: relative;
+  padding-top: 170px;
+  background:
+    url(bg-footer-hills.svg) top center / 100% 140px no-repeat,
+    url(bg-snow-large.svg) 0 0 / 500px 500px,
+    #1c130c;
+}
+
+/* Product cards: softer, more premium */
+.product-card {
+  border-color: transparent;
+  box-shadow: 0 1px 2px rgba(46, 31, 20, 0.06), 0 8px 24px rgba(46, 31, 20, 0.06);
+}
+
+.product-card:hover {
+  box-shadow: 0 2px 4px rgba(46, 31, 20, 0.06), 0 20px 40px rgba(46, 31, 20, 0.12);
+}
+
+.step {
+  border-color: transparent;
+  box-shadow: 0 8px 24px rgba(46, 31, 20, 0.06);
+}
+
+.step::before {
+  background: linear-gradient(135deg, var(--color-primary), #7f1d1d);
+  box-shadow: 0 6px 14px color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+
+/* Announcement bar with a little sparkle */
+.announcement {
+  background: linear-gradient(90deg, #0f3d26, var(--color-secondary), #0f3d26);
+  letter-spacing: 0.01em;
 }
 
 @media (prefers-reduced-motion: reduce) {
